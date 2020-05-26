@@ -15,20 +15,40 @@
 /**
  * Adds a random greeting to the page.
  */
-function addRandomGreeting() {
-  const greetings =
-      ['The steps you take don’t need to be big. They just need to take you in the right direction.', 
-       'I always pictured you as Watson.', 
-       'I like to think about the first law of thermodynamics, that no energy in the universe is created and... none is destroyed. \
-        That means that every bit of energy inside us, every particle will go on to be a part of something else. Maybe live as a\
-        dragonfish, a microbe, maybe burn in a supernova ten billion years from now. And every part of us now was once a part of \
-        some other thing - a moon, a storm cloud, a mammoth.', 
-       'Usually one person doesn\'t solve the solution, but 100 people with 1% of the solution? That will get it done. I think that\'s beautiful, pieces solving a puzzle.'];
+function addRandomProject() {
+  const projects =
+      [
+          { name:"Tak", 
+            text:"This is terminal version of the KingKiller Chronicle's two player game with the same name!", 
+            link:"https://github.com/connielei-stuy/apcs1-final-tak", 
+            image:"/images/tak.png"
+          }, 
+          { name:"TriWizard Maze", 
+            text:"This is virtual reality experience of the TriWizard Maze!", 
+            link:"https://github.com/connielei-kwk/kwk17-FINAL-PROJ-maze", 
+            image:"/images/tri.png"
+          },
+          { name:"Graphics Engine", 
+            text:"This is simple graphics engine that can create basic shapes.", 
+            link:"https://github.com/connielei-stuy/graphics-anim", 
+            image:"/images/graphics.gif"
+          } 
+        ];
 
   // Pick a random greeting.
-  const greeting = greetings[Math.floor(Math.random() * greetings.length)];
+  const project = projects[Math.floor(Math.random() * projects.length)];
 
   // Add it to the page.
-  const greetingContainer = document.getElementById('greeting-container');
-  greetingContainer.innerText = greeting;
+  const projectName = document.getElementById('project-name');
+  projectName.innerText = project["name"];
+
+  const projectTextContainer = document.getElementById('project-text');
+  projectTextContainer.innerText = project["text"];
+
+  const projectLink = document.getElementById('project-link');
+  projectLink.innerText = "Click here for the repo!";
+  projectLink.href = project["link"];
+
+  const projectImg = document.getElementById('project-img');
+  projectImg.src = project["image"];
 }
