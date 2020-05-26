@@ -48,8 +48,19 @@ function addRandomProject() {
   projectImg.src = project["image"];
 }
 
-async function getHello(){
+async function getMessages() {
     const response = await fetch('/data');
-    const hello = await response.text();
-    document.getElementById('hello-container').innerText = hello;
+    const json = await response.json();
+
+    const ulElement = document.getElementById('messages-list');
+    ulElement.innerHTML = '';
+    for (message of json) {
+        ulElement.appendChild(createListElement(message));
+    }
+}
+
+function createListElement(text) {
+  const liElement = document.createElement('li');
+  liElement.innerText = text;
+  return liElement;
 }
