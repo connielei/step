@@ -47,3 +47,9 @@ function addRandomProject() {
   const projectImg = document.getElementById('project-img');
   projectImg.src = project["image"];
 }
+
+async function getHello(){
+    const response = await fetch('/data');
+    const hello = await response.text();
+    document.getElementById('hello-container').innerText = hello;
+}
