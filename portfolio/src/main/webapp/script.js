@@ -17,7 +17,13 @@
  */
 function addRandomGreeting() {
   const greetings =
-      ['Hello world!', '¡Hola Mundo!', '你好，世界！', 'Bonjour le monde!'];
+      ['The steps you take don’t need to be big. They just need to take you in the right direction.', 
+       'I always pictured you as Watson.', 
+       'I like to think about the first law of thermodynamics, that no energy in the universe is created and... none is destroyed. \
+        That means that every bit of energy inside us, every particle will go on to be a part of something else. Maybe live as a\
+        dragonfish, a microbe, maybe burn in a supernova ten billion years from now. And every part of us now was once a part of \
+        some other thing - a moon, a storm cloud, a mammoth.', 
+       'Usually one person doesn\'t solve the solution, but 100 people with 1% of the solution? That will get it done. I think that\'s beautiful, pieces solving a puzzle.'];
 
   // Pick a random greeting.
   const greeting = greetings[Math.floor(Math.random() * greetings.length)];
