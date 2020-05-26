@@ -12,9 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/**
- * Adds a random greeting to the page.
- */
 function addRandomProject() {
   const projects =
       [
@@ -33,12 +30,10 @@ function addRandomProject() {
             link:"https://github.com/connielei-stuy/graphics-anim", 
             image:"/images/graphics.gif"
           } 
-        ];
+      ];
 
-  // Pick a random greeting.
   const project = projects[Math.floor(Math.random() * projects.length)];
 
-  // Add it to the page.
   const projectName = document.getElementById('project-name');
   projectName.innerText = project["name"];
 
