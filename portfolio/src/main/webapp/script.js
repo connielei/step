@@ -35,15 +35,15 @@ function addRandomProject() {
   const project = projects[Math.floor(Math.random() * projects.length)];
 
   const projectName = document.getElementById('project-name');
-  projectName.innerText = project["name"];
+  projectName.innerText = project['name'];
 
   const projectTextContainer = document.getElementById('project-text');
   projectTextContainer.innerText = project["text"];
 
   const projectLink = document.getElementById('project-link');
   projectLink.innerText = "Click here for the repo!";
-  projectLink.href = project["link"];
+  projectLink.href = project['link'];
 
   const projectImg = document.getElementById('project-img');
-  projectImg.src = project["image"];
+  projectImg.src = project['image'];
 }
