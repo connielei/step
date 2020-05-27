@@ -26,3 +26,26 @@ function addRandomGreeting() {
   const greetingContainer = document.getElementById('greeting-container');
   greetingContainer.innerText = greeting;
 }
+
+/**
+ * Fetches a list of messages and adds it to the page.
+ */
+async function getMessages() {
+    const response = await fetch('/data');
+    const json = await response.json();
+
+    const ulElement = document.getElementById('messages-list');
+    ulElement.innerHTML = '';
+    for (message of json) {
+        ulElement.appendChild(createListElement(message));
+    }
+}
+
+/**
+ * Creates and returns a list element.
+ */
+function createListElement(text) {
+  const liElement = document.createElement('li');
+  liElement.innerText = text;
+  return liElement;
+}
