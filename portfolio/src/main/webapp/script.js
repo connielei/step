@@ -28,10 +28,24 @@ function addRandomGreeting() {
 }
 
 /**
- * Fetches the hello message and adds it to the page.
+ * Fetches a list of messages and adds it to the page.
  */
-async function getHello() {
+async function getMessages() {
     const response = await fetch('/data');
-    const hello = await response.text();
-    document.getElementById('hello-container').innerText = hello;
-} 
+    const json = await response.json();
+
+    const ulElement = document.getElementById('messages-list');
+    ulElement.innerHTML = '';
+    for (message of json) {
+        ulElement.appendChild(createListElement(message));
+    }
+}
+
+/**
+ * Creates and returns a list element.
+ */
+function createListElement(text) {
+  const liElement = document.createElement('li');
+  liElement.innerText = text;
+  return liElement;
+}
