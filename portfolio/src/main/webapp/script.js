@@ -30,7 +30,7 @@ function addRandomGreeting() {
 /**
  * Fetches the hello message and adds it to the page.
  */
-async function getHello(){
+async function getHello() {
     const response = await fetch('/data');
     const hello = await response.text();
     document.getElementById('hello-container').innerText = hello;
