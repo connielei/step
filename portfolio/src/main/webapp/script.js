@@ -12,6 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+/**
+ * Chooses a random project and updates the following: 
+ * img element with the project's img URl 
+ * heading element with the project's name
+ * paragraph element with the project's description
+ * link element with the project's Github link
+ */
 function addRandomProject() {
   const projects =
       [
@@ -38,7 +45,7 @@ function addRandomProject() {
   projectName.innerText = project['name'];
 
   const projectTextContainer = document.getElementById('project-text');
-  projectTextContainer.innerText = project["text"];
+  projectTextContainer.innerText = project['text'];
 
   const projectLink = document.getElementById('project-link');
   projectLink.innerText = "Click here for the repo!";
