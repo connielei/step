@@ -28,6 +28,15 @@ function addRandomGreeting() {
 }
 
 /**
+ * Sends a request to a servlet that deletes all the comments, then refetches the comments 
+ * to delete them from the page
+ */
+function deleteComments() {
+    fetch('/delete-comments')
+     .then(res => getComments());
+}
+
+/**
  * Fetches a list of messages and adds it to the page.
  */
 async function getComments() {
