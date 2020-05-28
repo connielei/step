@@ -67,6 +67,7 @@ public class ListCommentsServlet extends HttpServlet {
 
     if (numComments < 0) {
       System.err.println("Player choice is out of range: " + numCommentsString);
+      numComments = 10;
     }
 
     return numComments;
