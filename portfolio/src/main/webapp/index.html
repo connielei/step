@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
   </head>
-  <body>
+  <body onload="getComments()">
     <div id="content">
       <h1>My Portfolio</h1>
       <p>This is my portfolio.</p>
@@ -14,12 +14,13 @@
       <button onclick="addRandomGreeting()">Hello</button>
       <div id="greeting-container"></div>
 
-      <button onclick="getMessages()">
-        Messages
-      </button>
-      <div id="messages-container">
-          <ul id="messages-list">
+      <div id="comments-container">
+          <ul id="comments-list">
           </ul>
+          <form action="/addcomment" method="POST">
+            <input type="text" name="comment" required>
+            <input type="submit" />
+          </form>
       </div>
     </div>
   </body>

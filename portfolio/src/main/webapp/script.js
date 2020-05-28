@@ -30,14 +30,17 @@ function addRandomGreeting() {
 /**
  * Fetches a list of messages and adds it to the page.
  */
-async function getMessages() {
-    const response = await fetch('/data');
+async function getComments() {
+    const response = await fetch('/addcomment');
     const json = await response.json();
 
-    const ulElement = document.getElementById('messages-list');
+    const ulElement = document.getElementById('comments-list');
     ulElement.innerHTML = '';
-    for (message of json) {
-        ulElement.appendChild(createListElement(message));
+    for (comment of json) {
+        ulElement.appendChild(createListElement(comment));
+    }
+    if (ulElement.innerText === '') {
+        ulElement.innerText = 'No comments yet.';
     }
 }
 
