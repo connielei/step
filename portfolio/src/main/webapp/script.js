@@ -31,7 +31,7 @@ function addRandomGreeting() {
  * Fetches a list of messages and adds it to the page.
  */
 async function getComments() {
-    const response = await fetch('/list-comments');
+    const response = await fetch('/list-comments?num=10');
     const json = await response.json();
 
     const ulElement = document.getElementById('comments-list');

@@ -35,12 +35,15 @@ public class ListCommentsServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    int numComments = getNumComments(request);
+    
     Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
     List<String> comments = new ArrayList<>();
     for (Entity entity : results.asIterable()) {
+      if (comments.size() == numComments) break;
       String comment = (String) entity.getProperty("comment");
       comments.add(comment);
     }
@@ -49,5 +52,23 @@ public class ListCommentsServlet extends HttpServlet {
     Gson gson = new Gson();
     String json = gson.toJson(comments);
     response.getWriter().println(json);
+  }
+
+  /** Returns the number of comments the user requests, or a default value of 10 if the choice was invalid. */
+  private int getNumComments(HttpServletRequest request) {
+    String numCommentsString = request.getParameter("num");
+
+    int numComments = 10;
+    try {
+      numComments = Integer.parseInt(numCommentsString);
+    } catch (NumberFormatException e) {
+      System.err.println("Could not convert to int: " + numCommentsString);
+    }
+
+    if (numComments < 0) {
+      System.err.println("Player choice is out of range: " + numCommentsString);
+    }
+
+    return numComments;
   }
 }
