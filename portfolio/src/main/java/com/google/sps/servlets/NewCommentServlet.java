@@ -19,39 +19,21 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.gson.Gson;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
-@WebServlet("/addcomment")
-public class DataServlet extends HttpServlet {
-
-  List<String> comments;
-
-  @Override
-  public void init() {
-    comments = new ArrayList<>();
-  }
-
-  @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("application/json;");
-    Gson gson = new Gson();
-    String json = gson.toJson(comments);
-    response.getWriter().println(json);
-  }
+/** Servlet responsible for adding comments */
+@WebServlet("/add-comment")
+public class NewCommentServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String comment = request.getParameter("comment");
-    comments.add(comment);
-    
-    Entity commentEntity = new Entity("Comment");
     long timestamp = System.currentTimeMillis();
+
+    Entity commentEntity = new Entity("Comment");
     commentEntity.setProperty("timestamp", timestamp);
     commentEntity.setProperty("comment", comment);
 
