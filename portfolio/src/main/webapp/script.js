@@ -34,4 +34,4 @@ async function getHello() {
     const response = await fetch('/data');
     const hello = await response.text();
     document.getElementById('hello-container').innerText = hello;
-} 
+}
