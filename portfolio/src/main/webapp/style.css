@@ -4,7 +4,15 @@
   width: 650px;
 }
 
-#greeting-container {
-  margin-top: 20px;
+#project-container {
+  background: #EFEFEF;
+  padding: 1px 6px;
 }
 
+#project-button {
+  border-width: 1px;
+  border-style: outset;
+  border-color: rgb(118, 118, 118);
+  padding: 1px 6px;
+  width: fit-content;
+}
