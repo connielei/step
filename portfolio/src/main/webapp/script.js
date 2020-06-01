@@ -37,6 +37,7 @@ function populate() {
   projectLinkEl = document.getElementById('project-link');
   projectLinkEl.innerText = "Click here for the repo!";
   projectImgEl = document.getElementById('project-img');
+  init = true;
 }
 
 /** Updates the project name element with the given name. */
