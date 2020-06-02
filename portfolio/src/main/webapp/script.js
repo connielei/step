@@ -13,11 +13,12 @@
 // limitations under the License.
 let init = false, projects, projectNameEl, projectTextEl, projectLinkEl, projectImgEl;
 
-/** Initializes all the variables needed for addRandomProject */
+/** Initializes all the variables needed for displayRandomProject */
 function populate() {
   projects = [
       { name:"Tak", 
-        text:"This is terminal version of the KingKiller Chronicle's two player game with the same name!", 
+        text:"This is terminal version of the KingKiller Chronicle's \
+              two player game with the same name!", 
         link:"https://github.com/connielei-stuy/apcs1-final-tak", 
         image:"/images/tak.png"
       }, 
@@ -50,7 +51,7 @@ function updateProjectText(text) {
   projectTextEl.innerText = text;
 }
 
-/** Upadtes the project link element with the given link. */
+/** Updates the project link element with the given link. */
 function updateProjectLink(link) {
   projectLinkEl.href = link;
 }
@@ -73,7 +74,7 @@ function getRandomProject() {
  * paragraph element with the project's description
  * link element with the project's Github link
  */
-function addRandomProject() {
+function displayRandomProject() {
   if(!init) populate();
   const project = getRandomProject();
 
