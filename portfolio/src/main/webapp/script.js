@@ -41,27 +41,42 @@ function populate() {
   init = true;
 }
 
-/** Updates the project name element with the given name. */
+/** 
+ * Updates the project name element with the given name. 
+ * @param {string} name 
+ */
 function updateProjectName(name) {
   projectNameEl.innerText = name;
 }
 
-/** Updates the project text element with the given text. */
+/** 
+ * Updates the project text element with the given text. 
+ * @param {string} text 
+ */
 function updateProjectText(text) {
   projectTextEl.innerText = text;
 }
 
-/** Updates the project link element with the given link. */
+/** 
+ * Updates the project link element with the given link. 
+ * @param {string} link 
+ */
 function updateProjectLink(link) {
   projectLinkEl.href = link;
 }
 
-/** Updates the image element with the given image. */
+/** 
+ * Updates the image element with the given image. 
+ * @param {string} image 
+ */
 function updateProjectImage(image) {
   projectImgEl.src = image;
 }
 
-/** Returns a random project. */
+/** 
+ * Returns a random project
+ * @return {!Object}
+ */
 function getRandomProject() {
   return projects[Math.floor(Math.random() * projects.length)];
 }
@@ -69,13 +84,13 @@ function getRandomProject() {
 /**
  * Initializes all necessary variables if needed, then
  * chooses a random project and updates the following: 
- * img element with the project's img URl 
- * heading element with the project's name
- * paragraph element with the project's description
- * link element with the project's Github link
+ *  - img element with the project's img URl 
+ *  - heading element with the project's name
+ *  - paragraph element with the project's description
+ *  - link element with the project's Github link
  */
 function displayRandomProject() {
-  if(!init) populate();
+  if (!init) populate();
   const project = getRandomProject();
   
 
