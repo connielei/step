@@ -77,6 +77,7 @@ function getRandomProject() {
 function displayRandomProject() {
   if(!init) populate();
   const project = getRandomProject();
+  
 
   updateProjectName(project.name);
   updateProjectText(project.text);
