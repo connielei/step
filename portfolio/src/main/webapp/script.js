@@ -11,20 +11,93 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+let init = false, projects, projectNameEl, projectTextEl, projectLinkEl, projectImgEl;
+
+/** Initializes all the variables needed for displayRandomProject */
+function populate() {
+  projects = [
+      { name:"Tak", 
+        text:"This is terminal version of the KingKiller Chronicle's \
+              two player game with the same name!", 
+        link:"https://github.com/connielei-stuy/apcs1-final-tak", 
+        image:"/images/tak.png"
+      }, 
+      { name:"TriWizard Maze", 
+        text:"This is virtual reality experience of the TriWizard Maze!", 
+        link:"https://github.com/connielei-kwk/kwk17-FINAL-PROJ-maze", 
+        image:"/images/tri.png"
+      },
+      { name:"Graphics Engine", 
+        text:"This is simple graphics engine that can create basic shapes.", 
+        link:"https://github.com/connielei-stuy/graphics-anim", 
+        image:"/images/graphics.gif"
+      } 
+  ];
+  projectNameEl = document.getElementById('project-name');
+  projectTextEl = document.getElementById('project-text');
+  projectLinkEl = document.getElementById('project-link');
+  projectLinkEl.innerText = "Click here for the repo!";
+  projectImgEl = document.getElementById('project-img');
+  init = true;
+}
+
+/** 
+ * Updates the project name element with the given name. 
+ * @param {string} name 
+ */
+function updateProjectName(name) {
+  projectNameEl.innerText = name;
+}
+
+/** 
+ * Updates the project text element with the given text. 
+ * @param {string} text 
+ */
+function updateProjectText(text) {
+  projectTextEl.innerText = text;
+}
+
+/** 
+ * Updates the project link element with the given link. 
+ * @param {string} link 
+ */
+function updateProjectLink(link) {
+  projectLinkEl.href = link;
+}
+
+/** 
+ * Updates the image element with the given image. 
+ * @param {string} image 
+ */
+function updateProjectImage(image) {
+  projectImgEl.src = image;
+}
+
+/** 
+ * Returns a random project
+ * @return {!Object}
+ */
+function getRandomProject() {
+  return projects[Math.floor(Math.random() * projects.length)];
+}
 
 /**
- * Adds a random greeting to the page.
+ * Initializes all necessary variables if needed, then
+ * chooses a random project and updates the following: 
+ *  - img element with the project's img URl 
+ *  - heading element with the project's name
+ *  - paragraph element with the project's description
+ *  - link element with the project's Github link
  */
-function addRandomGreeting() {
-  const greetings =
-      ['Hello world!', '¡Hola Mundo!', '你好，世界！', 'Bonjour le monde!'];
+function displayRandomProject() {
+  if (!init) populate();
+  const project = getRandomProject();
+  
 
-  // Pick a random greeting.
-  const greeting = greetings[Math.floor(Math.random() * greetings.length)];
-
-  // Add it to the page.
-  const greetingContainer = document.getElementById('greeting-container');
-  greetingContainer.innerText = greeting;
+  updateProjectName(project.name);
+  updateProjectText(project.text);
+  updateProjectLink(project.link);
+  updateProjectImage(project.image);
 }
 
 /**

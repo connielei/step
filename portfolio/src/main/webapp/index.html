@@ -2,22 +2,34 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>My Portfolio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Connie's Portfolio</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
   </head>
   <body>
     <div id="content">
-      <h1>My Portfolio</h1>
-      <p>This is my portfolio.</p>
-      <p>Click here to get a random message:</p>
-      <button onclick="addRandomGreeting()">Hello</button>
-      <div id="greeting-container"></div>
-
-      <button onclick="getHello()">
-        Hello!
-      </button>
-      <div id="hello-container"></div>
+      <h1>Connie's Portfolio</h1>
+      <p>
+          I'm a sophomore studying CS at Cornell! I started my journey in high school where I was required to take an introductory to computer science course. 
+          From there I took the second introductory course, then APCS and some electives. I also participated in Kode With Klossy and CS4CS! In my freshman year of college,
+          I joined a project team called Design Tech Initiative, more specifically, the Research Connect subteam which wanted to help undergraduates with research opportunities.
+          I changed subteams to Queue Me In the following year. I also took a functional programming class and learned OCaml and became a teaching assistant for the class.
+      </p>
+      <p>
+          Some links:
+            <a href="https://github.com/connielei">Github</a>
+            <a href="https://www.linkedin.com/in/clei">Linkedin</a>
+      </p>
+      <div id="project-container"> 
+          <button id="project-button" onclick="displayRandomProject()">
+            Click to get a random project:
+          </button>
+          <h2 id="project-name"></h2>
+          <a id="project-link" href=""></a>
+          <p id="project-text"></p>
+          <img id="project-img" src="" width="100%"></img>
+      </div>
     </div>
   </body>
 </html>
