@@ -30,7 +30,7 @@ function addRandomGreeting() {
 /**
  * Fetches a list of messages and adds it to the page.
  */
-async function getMessages() {
+async function displayMessages() {
     const response = await fetch('/data');
     const json = await response.json();
 
@@ -42,7 +42,9 @@ async function getMessages() {
 }
 
 /**
- * Creates and returns a list element.
+ * Creates and returns a list element
+ * @param {string} text
+ * @return {!Element}
  */
 function createListElement(text) {
   const liElement = document.createElement('li');
