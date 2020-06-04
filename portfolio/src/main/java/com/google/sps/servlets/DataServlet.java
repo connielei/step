@@ -37,6 +37,7 @@ public class DataServlet extends HttpServlet {
     messages.add("Message 3");
   }
   
+  /** Endpoint always returns ["Message 1", "Message 2", "Message 3"] */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("application/json;");
