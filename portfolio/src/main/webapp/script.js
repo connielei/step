@@ -35,7 +35,7 @@ async function displayMessages() {
     const json = await response.json();
 
     const ulElement = document.getElementById('messages-list');
-    ulElement.innerHTML = '';
+    ulElement.textContent = '';
     for (message of json) {
         ulElement.appendChild(createListElement(message));
     }
@@ -48,6 +48,6 @@ async function displayMessages() {
  */
 function createListElement(text) {
   const liElement = document.createElement('li');
-  liElement.innerText = text;
+  liElement.textContent = text;
   return liElement;
 }
