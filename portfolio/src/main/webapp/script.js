@@ -101,17 +101,19 @@ function displayRandomProject() {
 }
 
 /**
- * Fetches a list of comments and adds it to the page.
+ * Fetches a list of comments and displays them on the page.
+ * If there are no comments, the page displays a no comments yet message.
  */
 async function displayComments() {
     const response = await fetch('/addcomment');
     const json = await response.json();
 
     const ulElement = document.getElementById('comments-list');
-    ulElement.textContent = '';
     for (comment of json) {
         ulElement.appendChild(createListElement(comment));
     }
+
+
     if (ulElement.textContent === '') {
         ulElement.textContent = 'No comments yet.';
     }
