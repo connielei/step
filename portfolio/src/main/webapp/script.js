@@ -99,3 +99,12 @@ function displayRandomProject() {
   updateProjectLink(project.link);
   updateProjectImage(project.image);
 }
+
+/**
+ * Fetches the hello message and adds it to the page.
+ */
+async function getHello() {
+    const response = await fetch('/data');
+    const hello = await response.text();
+    document.getElementById('hello-container').textContent = hello;
+}
