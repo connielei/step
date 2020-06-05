@@ -101,10 +101,26 @@ function displayRandomProject() {
 }
 
 /**
- * Fetches the hello message and adds it to the page.
+ * Fetches a list of messages and adds it to the page.
  */
-async function getHello() {
+async function displayMessages() {
     const response = await fetch('/data');
-    const hello = await response.text();
-    document.getElementById('hello-container').textContent = hello;
+    const json = await response.json();
+
+    const ulElement = document.getElementById('messages-list');
+    ulElement.textContent = '';
+    for (message of json) {
+        ulElement.appendChild(createListElement(message));
+    }
+}
+
+/**
+ * Creates and returns a list element
+ * @param {string} text
+ * @return {!Element}
+ */
+function createListElement(text) {
+  const liElement = document.createElement('li');
+  liElement.textContent = text;
+  return liElement;
 }
