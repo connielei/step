@@ -34,6 +34,7 @@ public class DataServlet extends HttpServlet {
     comments = new ArrayList<>();
   }
 
+  /** Endpoint now returns an string array containing the comments */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("application/json;");
