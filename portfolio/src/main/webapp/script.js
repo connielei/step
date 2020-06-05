@@ -101,20 +101,6 @@ function displayRandomProject() {
 }
 
 /**
- * Fetches a list of messages and adds it to the page.
- */
-async function displayMessages() {
-    const response = await fetch('/data');
-    const json = await response.json();
-
-    const ulElement = document.getElementById('messages-list');
-    ulElement.textContent = '';
-    for (message of json) {
-        ulElement.appendChild(createListElement(message));
-    }
-}
-
-/**
  * Creates and returns a list element
  * @param {string} text
  * @return {!Element}
@@ -128,7 +114,7 @@ function createListElement(text) {
 /**
  * Fetches a list of messages and adds it to the page.
  */
-async function getComments() {
+async function displayComments() {
     const response = await fetch('/list-comments');
     const json = await response.json();
 
@@ -140,13 +126,4 @@ async function getComments() {
     if (ulElement.innerText === '') {
         ulElement.innerText = 'No comments yet.';
     }
-}
-
-/**
- * Creates and returns a list element.
- */
-function createListElement(text) {
-  const liElement = document.createElement('li');
-  liElement.innerText = text;
-  return liElement;
 }
