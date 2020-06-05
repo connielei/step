@@ -119,11 +119,12 @@ async function displayComments() {
     const json = await response.json();
 
     const ulElement = document.getElementById('comments-list');
-    ulElement.innerHTML = '';
+
     for (comment of json) {
         ulElement.appendChild(createListElement(comment));
     }
-    if (ulElement.innerText === '') {
-        ulElement.innerText = 'No comments yet.';
+
+    if (ulElement.textContent === '') {
+        ulElement.textContent = 'No comments yet.';
     }
 }
