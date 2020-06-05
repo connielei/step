@@ -113,8 +113,7 @@ async function displayComments() {
         ulElement.appendChild(createListElement(comment));
     }
 
-
-    if (ulElement.textContent === '') {
+    if (ulElement.textContent.trim() === '') {
         ulElement.textContent = 'No comments yet.';
     }
 }
