@@ -33,8 +33,16 @@
       <version>4.0.1</version>
       <scope>provided</scope>
     </dependency>
+<<<<<<< HEAD
    
 
+=======
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.8.6</version>
+    </dependency>
+>>>>>>> master
   </dependencies>
 
   <build>
@@ -46,8 +54,7 @@
         <artifactId>appengine-maven-plugin</artifactId>
         <version>2.2.0</version>
         <configuration>
-          <!-- TODO: set project ID. -->
-          <deploy.projectId>YOUR_PROJECT_ID_HERE</deploy.projectId>
+          <deploy.projectId>cool-project2020</deploy.projectId>
           <deploy.version>1</deploy.version>
         </configuration>
       </plugin>
