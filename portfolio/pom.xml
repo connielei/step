@@ -40,7 +40,7 @@
         <version>2.2.0</version>
         <configuration>
           <deploy.projectId>cool-project2020</deploy.projectId>
-          <deploy.version>3-4</deploy.version>
+          <deploy.version>1</deploy.version>
         </configuration>
       </plugin>
     </plugins>
