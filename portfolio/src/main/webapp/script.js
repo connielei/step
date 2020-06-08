@@ -111,11 +111,20 @@ function createListElement(text) {
 }
 
 /**
+ * Sends a request to a servlet that deletes all the comments, then refetches the comments 
+ * to delete them from the page
+ */
+function deleteComments() {
+    fetch('/delete-comments')
+     .then(res => displayComments());
+}
+
+/**
  * Fetches a list of comments and displays them on the page.
  * If there are no comments, the page displays a no comments yet message.
  */
 async function displayComments() {
-    const response = await fetch('/list-comments');
+    const response = await fetch(`/list-comments?num=${document.getElementById('num').value}`);
     const json = await response.json();
 
     const ulElement = document.getElementById('comments-list');
