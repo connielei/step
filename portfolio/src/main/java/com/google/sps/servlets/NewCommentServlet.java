@@ -1,4 +1,4 @@
-// Copyright 2019 Google LLC
+// Copyright 2020 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,6 +14,9 @@
 
 package com.google.sps.servlets;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,31 +26,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that handles comments */
-@WebServlet("/addcomment")
-public class DataServlet extends HttpServlet {
-
-  List<String> comments;
-
-  @Override
-  public void init() {
-    comments = new ArrayList<>();
-  }
-
-  /** Endpoint now returns an string array containing the comments */
-  @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("application/json;");
-    Gson gson = new Gson();
-    String json = gson.toJson(comments);
-    response.getWriter().println(json);
-  }
-
-  /** Adds a comment to the list of comments and redirects back to initial page */
+/** Servlet responsible for adding comments */
+@WebServlet("/add-comment")
+public class NewCommentServlet extends HttpServlet {
+  
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String comment = request.getParameter("comment");
-    comments.add(comment);
+    long timestamp = System.currentTimeMillis();
+
+    Entity commentEntity = new Entity("Comment");
+    commentEntity.setProperty("timestamp", timestamp);
+    commentEntity.setProperty("comment", comment);
+
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(commentEntity);
+
     response.sendRedirect("/");
   }
 }
