@@ -1,4 +1,4 @@
-// Copyright 2019 Google LLC
+// Copyright 2020 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,27 +20,57 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.gson.Gson;
+import java.util.List;
+import java.util.ArrayList;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet responsible for deleting all comments */
-@WebServlet("/delete-comments")
-public class DeleteCommentsServlet extends HttpServlet {
+/** Servlet responsible for listing comments */
+@WebServlet("/list-comments")
+public class ListCommentsServlet extends HttpServlet {
 
+  /** Endpoint now returns an string array containing the comments */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Query query = new Query("Comment");
+    int numComments = getNumComments(request);
+    
+    Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
+    List<String> comments = new ArrayList<>();
     for (Entity entity : results.asIterable()) {
-      datastore.delete(entity.getKey());
+      if (comments.size() == numComments) break;
+      String comment = (String) entity.getProperty("comment");
+      comments.add(comment);
     }
 
-    response.setContentType("html/text;");
-    response.getWriter().println("Success");
+    response.setContentType("application/json;");
+    Gson gson = new Gson();
+    String json = gson.toJson(comments);
+    response.getWriter().println(json);
+  }
+
+  /** Returns the number of comments the user requests, or a default value of 10 if the choice was invalid. */
+  private int getNumComments(HttpServletRequest request) {
+    String numCommentsString = request.getParameter("num");
+
+    int numComments = 10;
+    try {
+      numComments = Integer.parseInt(numCommentsString);
+    } catch (NumberFormatException e) {
+      System.err.println("Could not convert to int: " + numCommentsString);
+    }
+
+    if (numComments < 0) {
+      System.err.println("Player choice is out of range: " + numCommentsString);
+      numComments = 10;
+    }
+
+    return numComments;
   }
 }
