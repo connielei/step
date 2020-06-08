@@ -101,16 +101,20 @@ function displayRandomProject() {
 }
 
 /**
- * Fetches a list of messages and adds it to the page.
+ * Fetches a list of comments and displays them on the page.
+ * If there are no comments, the page displays a no comments yet message.
  */
-async function displayMessages() {
-    const response = await fetch('/data');
+async function displayComments() {
+    const response = await fetch('/addcomment');
     const json = await response.json();
 
-    const ulElement = document.getElementById('messages-list');
-    ulElement.textContent = '';
-    for (message of json) {
-        ulElement.appendChild(createListElement(message));
+    const ulElement = document.getElementById('comments-list');
+    for (comment of json) {
+        ulElement.appendChild(createListElement(comment));
+    }
+
+    if (ulElement.textContent.trim() === '') {
+        ulElement.textContent = 'No comments yet.';
     }
 }
 
