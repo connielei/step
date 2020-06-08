@@ -1,4 +1,4 @@
-// Copyright 2019 Google LLC
+// Copyright 2020 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -91,31 +91,12 @@ function getRandomProject() {
  */
 function displayRandomProject() {
   if (!init) populate();
-  const project = getRandomProject();
-  
+  const project = getRandomProject();  
 
   updateProjectName(project.name);
   updateProjectText(project.text);
   updateProjectLink(project.link);
   updateProjectImage(project.image);
-}
-
-/**
- * Fetches a list of comments and displays them on the page.
- * If there are no comments, the page displays a no comments yet message.
- */
-async function displayComments() {
-    const response = await fetch('/addcomment');
-    const json = await response.json();
-
-    const ulElement = document.getElementById('comments-list');
-    for (comment of json) {
-        ulElement.appendChild(createListElement(comment));
-    }
-
-    if (ulElement.textContent.trim() === '') {
-        ulElement.textContent = 'No comments yet.';
-    }
 }
 
 /**
@@ -127,4 +108,32 @@ function createListElement(text) {
   const liElement = document.createElement('li');
   liElement.textContent = text;
   return liElement;
+}
+
+/**
+ * Sends a request to a servlet that deletes all the comments, then refetches the comments 
+ * to delete them from the page
+ */
+function deleteComments() {
+    fetch('/delete-comments')
+     .then(res => displayComments());
+}
+
+/**
+ * Fetches a list of comments and displays them on the page.
+ * If there are no comments, the page displays a no comments yet message.
+ */
+async function displayComments() {
+    const response = await fetch(`/list-comments?num=${document.getElementById('num').value}`);
+    const json = await response.json();
+
+    const ulElement = document.getElementById('comments-list');
+
+    for (comment of json) {
+        ulElement.appendChild(createListElement(comment));
+    }
+
+    if (json.length === 0) {
+        ulElement.textContent = 'No comments yet.';
+    }
 }
