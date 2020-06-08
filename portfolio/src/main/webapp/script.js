@@ -116,7 +116,7 @@ function createListElement(text) {
  */
 function deleteComments() {
     fetch('/delete-comments')
-     .then(res => getComments());
+     .then(res => displayComments());
 }
 
 /**
