@@ -91,8 +91,7 @@ function getRandomProject() {
  */
 function displayRandomProject() {
   if (!init) populate();
-  const project = getRandomProject();
-  
+  const project = getRandomProject();  
 
   updateProjectName(project.name);
   updateProjectText(project.text);
@@ -112,7 +111,8 @@ function createListElement(text) {
 }
 
 /**
- * Fetches a list of messages and adds it to the page.
+ * Fetches a list of comments and displays them on the page.
+ * If there are no comments, the page displays a no comments yet message.
  */
 async function displayComments() {
     const response = await fetch('/list-comments');
