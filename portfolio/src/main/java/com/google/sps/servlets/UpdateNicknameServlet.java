@@ -17,40 +17,33 @@ package com.google.sps.servlets;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
-import com.google.gson.Gson;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.PrintWriter;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet responsible for adding comments */
-@WebServlet("/add-comment")
-public class NewCommentServlet extends HttpServlet {
-  
+@WebServlet("/update-nickname")
+public class UpdateNicknameServlet extends HttpServlet {
+
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String comment = request.getParameter("comment");
-    long timestamp = System.currentTimeMillis();
-
-    Entity commentEntity = new Entity("Comment");
-    commentEntity.setProperty("timestamp", timestamp);
-    commentEntity.setProperty("comment", comment);
-    commentEntity.setProperty("id", getId());
-
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    datastore.put(commentEntity);
-
-    response.sendRedirect("/");
-  }
-
-  private String getId(){
+    String nickname = request.getParameter("nickname");
     UserService userService = UserServiceFactory.getUserService();
     String id = userService.getCurrentUser().getUserId();
-    return id;
+
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    Entity entity = new Entity("UserInfo", id);
+    entity.setProperty("id", id);
+    entity.setProperty("nickname", nickname);
+    // The put() function automatically inserts new data or updates existing data based on ID
+    datastore.put(entity);
+
+    response.sendRedirect("/");
   }
 }

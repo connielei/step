@@ -19,61 +19,46 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.SortDirection;
-import com.google.gson.Gson;
-import java.util.List;
-import java.util.ArrayList;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet responsible for listing comments */
-@WebServlet("/list-comments")
-public class ListCommentsServlet extends HttpServlet {
+@WebServlet("/login")
+public class LoginServlet extends HttpServlet {
 
-  /** Endpoint now returns an string array containing the comments */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    int numComments = getNumComments(request);
-    
-    Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    PreparedQuery results = datastore.prepare(query);
+    response.setContentType("application/json");
+    String urlToRedirectTo = "/";
 
-    List<String> comments = new ArrayList<>();
-    for (Entity entity : results.asIterable()) {
-      if (comments.size() == numComments) break;
-      String comment = (String) entity.getProperty("comment");
-      String id = (String) entity.getProperty("id");
+    UserService userService = UserServiceFactory.getUserService();
+    if (userService.isUserLoggedIn()) {
+      String id = userService.getCurrentUser().getUserId();
       String nickname = getUserNickname(id);
-      comments.add(comment + " by  " + nickname);
-    }
+      String logoutUrl = userService.createLogoutURL(urlToRedirectTo);
+    
+      String json = generateLogoutJson(logoutUrl, nickname);
 
-    response.setContentType("application/json;");
-    Gson gson = new Gson();
-    String json = gson.toJson(comments);
-    response.getWriter().println(json);
+      response.getWriter().println(json);
+    } else {
+      String loginUrl = userService.createLoginURL(urlToRedirectTo);
+      String json = generateLoginJson(loginUrl);
+
+      response.getWriter().println(json);
+    }
   }
 
-  /** Returns the number of comments the user requests, or a default value of 10 if the choice was invalid. */
-  private int getNumComments(HttpServletRequest request) {
-    String numCommentsString = request.getParameter("num");
+  private String generateLoginJson(String loginUrl){
+    return "{\"url\": \"" + loginUrl + "\" , \"loggedIn\": false}";
+  }
 
-    int numComments = 10;
-    try {
-      numComments = Integer.parseInt(numCommentsString);
-    } catch (NumberFormatException e) {
-      System.err.println("Could not convert to int: " + numCommentsString);
-    }
-
-    if (numComments < 0) {
-      System.err.println("Player choice is out of range: " + numCommentsString);
-      numComments = 10;
-    }
-
-    return numComments;
+  private String generateLogoutJson(String logoutUrl, String nickname){
+    return "{\"url\": \"" + logoutUrl + "\" , \"loggedIn\": true, \"nickname\":\"" + nickname + "\"}";
   }
 
   /**
