@@ -54,15 +54,19 @@ public class LoginServlet extends HttpServlet {
   }
 
   private String generateLoginJson(String loginUrl){
-    return "{\"url\": \"" + loginUrl + "\" , \"loggedIn\": false}";
+    return "{\"url\": \"" + loginUrl + "\" , \"loggedIn\": false, \"displayText\": \"Log
+     in before posting a comment.\"}";
   }
 
   private String generateLogoutJson(String logoutUrl, String nickname){
-    return "{\"url\": \"" + logoutUrl + "\" , \"loggedIn\": true, \"nickname\":\"" + nickname + "\"}";
+    return "{\"url\": \"" + logoutUrl + "\" , \"loggedIn\": true, \"nickname\":\"" + 
+    nickname + "\",  \"displayText\": \"Log out.\"}";
   }
 
   /**
-   * Returns the nickname of the user with id, or empty String if the user has not set a nickname.
+   * Returns the nickname of the user with id, or "Anonymous" if the user does not one.
+   * @param String id 
+   * @return String 
    */
   private String getUserNickname(String id) {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();

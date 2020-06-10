@@ -33,12 +33,23 @@ function populate() {
         image:"/images/graphics.gif"
       } 
   ];
-  projectNameEl = document.getElementById('project-name');
-  projectTextEl = document.getElementById('project-text');
-  projectLinkEl = document.getElementById('project-link');
-  projectLinkEl.innerText = "Click here for the repo!";
-  projectImgEl = document.getElementById('project-img');
+  
+  projectNameEl = document.createElement("h2");
+  projectTextEl = document.createElement("p");
+  projectLinkEl = document.createElement("a");
+  projectLinkEl.textContent = "Click here for the repo!";
+  projectImgEl = document.createElement("img");
+  projectImgEl.id = "project-img";
+  appendProjectElements();
   init = true;
+}
+
+function appendProjectElements() {
+    const projectContainer = document.getElementById("project-container");
+    projectContainer.appendChild(projectNameEl);
+    projectContainer.appendChild(projectLinkEl);
+    projectContainer.appendChild(projectTextEl);
+    projectContainer.appendChild(projectImgEl);
 }
 
 /** 
