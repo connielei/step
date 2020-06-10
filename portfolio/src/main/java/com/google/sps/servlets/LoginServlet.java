@@ -31,6 +31,10 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 
+  /** 
+   * Endpoint will return JSON containing a url, login status, text to display and 
+   * if there user is logged in, their nickname
+   */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("application/json");
@@ -53,20 +57,27 @@ public class LoginServlet extends HttpServlet {
     }
   }
 
+  /**
+   * Returns a JSON formatted {"url": url, "loggedIn": false, "displayText": 
+   * "Log in before posting a comment."} for login and url is the parameter passed in.
+   */
   private String generateLoginJson(String loginUrl){
-    return "{\"url\": \"" + loginUrl + "\" , \"loggedIn\": false, \"displayText\": \"Log
-     in before posting a comment.\"}";
+    return "{\"url\": \"" + loginUrl + 
+    "\" , \"loggedIn\": false, \"displayText\": \"Log in before posting a comment.\"}";
   }
 
+  /**
+   * Returns a JSON formatted string {"url": url, "loggedIn": true, "nickname": nn, 
+   * "displayText":"Logout"} for logout and url and nn are parameters passed in.
+   */
   private String generateLogoutJson(String logoutUrl, String nickname){
     return "{\"url\": \"" + logoutUrl + "\" , \"loggedIn\": true, \"nickname\":\"" + 
     nickname + "\",  \"displayText\": \"Log out.\"}";
   }
 
   /**
-   * Returns the nickname of the user with id, or "Anonymous" if the user does not one.
-   * @param String id 
-   * @return String 
+   * Returns the nickname of the user with id, or "Anonymous" if the user doesn't have 
+   * a nickname.
    */
   private String getUserNickname(String id) {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();

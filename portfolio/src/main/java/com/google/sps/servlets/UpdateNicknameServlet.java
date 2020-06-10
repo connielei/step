@@ -28,9 +28,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/** Servlet responsible for updating a user's nickname. */
 @WebServlet("/update-nickname")
 public class UpdateNicknameServlet extends HttpServlet {
 
+  /** Endpoint will update a user's nickname and then redirect back to home page. */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String nickname = request.getParameter("nickname");

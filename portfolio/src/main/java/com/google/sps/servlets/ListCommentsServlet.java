@@ -33,7 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/list-comments")
 public class ListCommentsServlet extends HttpServlet {
 
-  /** Endpoint now returns an string array containing the comments */
+  /** Endpoint returns an string array of comments */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     int numComments = getNumComments(request);
@@ -48,7 +48,7 @@ public class ListCommentsServlet extends HttpServlet {
       String comment = (String) entity.getProperty("comment");
       String id = (String) entity.getProperty("id");
       String nickname = getUserNickname(id);
-      comments.add(comment + " by  " + nickname);
+      comments.add(comment + " by " + nickname);
     }
 
     response.setContentType("application/json;");
@@ -77,7 +77,8 @@ public class ListCommentsServlet extends HttpServlet {
   }
 
   /**
-   * Returns the nickname of the user with id, or empty String if the user has not set a nickname.
+   * Returns the nickname of the user with id, or "Anonymous" if the user doesn't have 
+   * a nickname.
    */
   private String getUserNickname(String id) {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();

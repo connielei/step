@@ -12,29 +12,48 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-let authEl, addCommentsEl, nicknameContainerEl;
+let loginEl, addCommentsEl, nicknameContainerEl;
 
+/** 
+ * Initializes all the variables needed for updateCommentFormDisplay(), 
+ * then calls the function to display the correct content based on
+ * whether the user is logged in or not.
+ */
 function toggleDisplay() {
-  authEl = document.getElementById("auth-el");
+  loginEl = document.getElementById("login");
   addCommentsEl = document.getElementById("comments-form-container");
   nicknameContainerEl = document.getElementById("nickname-container");
   updateCommentFormDisplay();
 }
 
+/**
+ * Fetches login status from '/login' endpoint, then if user is logged in:
+ *  - displays form allowing user to add a comment
+ *  - display user's nickname and button allowing user to update their nickname
+ *  - updates a url to display a log out link
+ * and if user is not logged in:
+ *  - hides form allowing user to comment and button allowing user to update nickname
+ *  - updates a url to display a log in link
+ */
 function updateCommentFormDisplay() {
   fetch('/login')
   .then(res => res.json())
   .then(json => {
     addCommentsEl.hidden = !json.loggedIn;
     nicknameContainerEl.hidden = !json.loggedIn;
-    updateAuth(json.displayText, json.url);
+    updateLogin(json.displayText, json.url);
     if (json.loggedIn) {
      document.getElementById("nickname").value = json.nickname
     }
   });
 }
 
-function updateAuth(text, href){
-  authEl.textContent = text;
-  authEl.href = href;
+/** 
+ * Updates the login element with the given text and href.
+ * @param {string} text
+ * @param {href} text
+ */
+function updateLogin(text, href){
+  loginEl.textContent = text;
+  loginEl.href = href;
 }

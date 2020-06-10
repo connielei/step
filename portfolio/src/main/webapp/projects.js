@@ -44,6 +44,7 @@ function populate() {
   init = true;
 }
 
+/** Appends necessary project elements to the project container element. */
 function appendProjectElements() {
     const projectContainer = document.getElementById("project-container");
     projectContainer.appendChild(projectNameEl);
