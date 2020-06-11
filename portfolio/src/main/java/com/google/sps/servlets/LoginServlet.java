@@ -33,7 +33,7 @@ public class LoginServlet extends HttpServlet {
 
   /** 
    * Endpoint will return JSON containing a url, login status, text to display and 
-   * if there user is logged in, their nickname
+   * if the user is logged in, their nickname
    */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {

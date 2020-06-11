@@ -48,6 +48,7 @@ public class NewCommentServlet extends HttpServlet {
     response.sendRedirect("/");
   }
 
+  /** Returns the user's id */
   private String getId(){
     UserService userService = UserServiceFactory.getUserService();
     String id = userService.getCurrentUser().getUserId();
