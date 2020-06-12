@@ -49,21 +49,21 @@ public class LoginServlet extends HttpServlet {
       String json = generateLogoutJson(logoutUrl, nickname);
 
       response.getWriter().println(json);
-    } else {
-      String loginUrl = userService.createLoginURL(urlToRedirectTo);
-      String json = generateLoginJson(loginUrl);
+      return;
+    } 
 
-      response.getWriter().println(json);
-    }
+    String loginUrl = userService.createLoginURL(urlToRedirectTo);
+    String json = generateLoginJson(loginUrl);
+    response.getWriter().println(json);
   }
 
   /**
-   * Returns a JSON formatted {"url": url, "loggedIn": false, "displayText": 
-   * "Log in before posting a comment."} for login and url is the parameter passed in.
+   * Returns a JSON formatted {"url": url, "loggedIn": false, "nickname":"", 
+   * "displayText": "Log in before posting a comment."} for login and url is
+   * the parameter passed in.
    */
   private String generateLoginJson(String loginUrl){
-    return "{\"url\": \"" + loginUrl + 
-    "\" , \"loggedIn\": false, \"displayText\": \"Log in before posting a comment.\"}";
+    return  generateJson(loginUrl, "", "false", "Log in before posting a comment.");
   }
 
   /**
@@ -71,8 +71,13 @@ public class LoginServlet extends HttpServlet {
    * "displayText":"Logout"} for logout and url and nn are parameters passed in.
    */
   private String generateLogoutJson(String logoutUrl, String nickname){
-    return "{\"url\": \"" + logoutUrl + "\" , \"loggedIn\": true, \"nickname\":\"" + 
-    nickname + "\",  \"displayText\": \"Log out.\"}";
+    return generateJson(logoutUrl, nickname, "true", "Log out.");
+  }
+
+  /** Returns a JSON with parameters filled in */
+  private String generateJson(String url, String nickname, String status, String displayText) {
+    return "{\"url\": \"" + url + "\", \"loggedIn\":" + status + ",\"nickname\":\"" + 
+    nickname + "\", \"displayText\": \"" + displayText + "\"}";
   }
 
   /**
