@@ -42,13 +42,14 @@ function displayComments() {
     .then(json => {
         const ulElement = document.getElementById('comments-list');
         ulElement.textContent = '';
-
-        for (comment of json) {
-            ulElement.appendChild(createListElement(comment));
-        }
-
+    
         if (json.length === 0) {
-            ulElement.textContent = 'No comments yet.';
+          ulElement.textContent = 'No comments yet.';
+          return;
+        }
+      
+        for (comment of json) {
+          ulElement.appendChild(createListElement(comment));
         }
     });
 }
