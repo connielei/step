@@ -43,7 +43,7 @@ function updateCommentFormDisplay() {
     nicknameContainerEl.hidden = !json.loggedIn;
     updateLogin(json.displayText, json.url);
     if (json.loggedIn) {
-     document.getElementById("nickname").value = json.nickname
+     document.getElementById("nickname").value = json.nickname;
     }
   });
 }
