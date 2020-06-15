@@ -14,12 +14,13 @@
 
 package com.google.sps;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.ArrayList;
+
 import java.util.Iterator;
 
 public final class FindMeetingQuery {
@@ -38,14 +39,14 @@ public final class FindMeetingQuery {
     int end = TimeRange.END_OF_DAY;
     Collection<TimeRange> ranges = new ArrayList();
 
-    // sort events based on ascending start time, needs to be converted to a List to use
-    // sort function and lambda
+    // sort events with respect to ascending start time, needs to be converted to a List
+    // to use the sort function and lambda
     List<Event> sorted_events = new ArrayList<>(events);
     sorted_events.sort((e1, e2) -> e1.getWhen().start() - e2.getWhen().start());
 
     for(Event event: sorted_events) {
-      // event does not contain the request's attendees, so no need to update the start
-      // and end time for the time ranges
+      // event does not contain the request's attendees, so there's no need to update the
+      // start time for a possible time range
       if (!containsAttendees(event.getAttendees(), attendees)) continue;
 
       TimeRange event_time_range = event.getWhen();
@@ -53,11 +54,11 @@ public final class FindMeetingQuery {
       int event_end = event_time_range.end();
 
       if (start < event_start && duration <= event_start - start)
-        // add range if duration condition is statisfied 
+        // create and add range if duration condition is statisfied 
         ranges.add(TimeRange.fromStartEnd(start, event_start, false));
 
-      // deals with nested events case, update the start time range to be the end of an
-      // event if the end is later than the current start time
+      // deals with nested events case: if the event's end time is later than the current
+      // range's start time, then update the start time with the event's end time
       if (start < event_end) start = event_end; 
     }
     if (duration <= end - start) ranges.add(TimeRange.fromStartEnd(start, end, true));
