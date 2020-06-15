@@ -4,11 +4,36 @@
   width: 60%;
 }
 
+#project-content {
+  background: aliceblue;
+  margin-top: 5px;
+  padding: 5px 20px 25px 20px;
+}
+
 #project-button {
   font-size: 100%;
   font-family: Tinos;
   cursor: pointer;
 }
+
+#project-img {
+  width: 100%;
+}
+
+#comments-content {
+  padding: 20px 20px 25px 20px;
+  background: ghostwhite;
+}
+
+#nickname-container, #comments-form-container, #change-display-container, 
+#comments-container {
+  padding: 10px 0px 0px 0px;
+}
+
+#num {
+  width: 30px
+}
+
 
 @media only screen and (max-width: 400px) {
   #content {
