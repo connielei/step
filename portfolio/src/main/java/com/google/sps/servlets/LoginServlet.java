@@ -63,7 +63,7 @@ public class LoginServlet extends HttpServlet {
    * the parameter passed in.
    */
   private String generateLoginJson(String loginUrl){
-    return  generateJson(loginUrl, "", "false", "Log in before posting a comment.");
+    return generateJson(loginUrl, "", "false", "Log in before posting a comment.");
   }
 
   /**
