@@ -24,7 +24,7 @@ import java.util.Iterator;
 
 public final class FindMeetingQuery {
 
-  
+  /** Returns time ranges that satisfy the request and take into account, the events */
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
     long duration = request.getDuration();
     // meeting duration is greater than a day means no viable ranges
