@@ -23,47 +23,57 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public final class FindMeetingQuery {
+
+  
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
-    long duration = request.getDuration();  
+    long duration = request.getDuration();
+    // meeting duration is greater than a day means no viable ranges
     if (duration > TimeRange.WHOLE_DAY.duration()) return Arrays.asList();
     
+    // no events means range should be the entire day
     if (events.isEmpty()) return Arrays.asList(TimeRange.WHOLE_DAY);
 
     Collection<String> attendees = request.getAttendees();
     int start = TimeRange.START_OF_DAY;
     int end = TimeRange.END_OF_DAY;
+    Collection<TimeRange> ranges = new ArrayList();
 
+    // sort events based on ascending start time, needs to be converted to a List to use
+    // sort function and lambda
     List<Event> sorted_events = new ArrayList<>(events);
     sorted_events.sort((e1, e2) -> e1.getWhen().start() - e2.getWhen().start());
 
-    Collection<TimeRange> ranges = new ArrayList();
     for(Event event: sorted_events) {
-        if (!containsAttendees(event.getAttendees(), attendees)) continue;
+      // event does not contain the request's attendees, so no need to update the start
+      // and end time for the time ranges
+      if (!containsAttendees(event.getAttendees(), attendees)) continue;
 
-        TimeRange event_time_range = event.getWhen();
-        int event_start = event_time_range.start();
-        int event_end = event_time_range.end();
+      TimeRange event_time_range = event.getWhen();
+      int event_start = event_time_range.start();
+      int event_end = event_time_range.end();
 
-        if (start < event_start && event_start < end) {
-            end = event_start;
-            if (duration <= end - start) {
-                ranges.add(TimeRange.fromStartEnd(start, end, false));
-            }
-            end = TimeRange.END_OF_DAY;
-        }
+      if (start < event_start && duration <= event_start - start)
+        // add range if duration condition is statisfied 
+        ranges.add(TimeRange.fromStartEnd(start, event_start, false));
 
-        if (event_end > start) start = event_end;
+      // deals with nested events case, update the start time range to be the end of an
+      // event if the end is later than the current start time
+      if (start < event_end) start = event_end; 
     }
     if (duration <= end - start) ranges.add(TimeRange.fromStartEnd(start, end, true));
 
     return ranges;
   }
 
-  private boolean containsAttendees(Collection<String> attendees1, Collection<String> attendees2) {
-    Iterator itr = attendees2.iterator();
+  /**
+   * Returns whether any elements in the second set, {@code people} are in the first set,
+   * {@code attendees}, ie. the two collections overlap/share elements
+   */
+  private boolean containsAttendees(Collection<String> attendees, Collection<String> people) {
+    Iterator itr = people.iterator();
     while(itr.hasNext()) {
-      String attendee = (String) itr.next();
-      if (attendees1.contains(attendee)) return true;
+      String person = (String) itr.next();
+      if (attendees.contains(person)) return true;
     }
     return false;
   }
