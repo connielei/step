@@ -32,7 +32,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet responsible for donut chart for different authors data*/
+/** Servlet responsible for donut chart's data */
 @WebServlet("/comments-authors-data")
 public class CommentsAuthorsServlet extends HttpServlet {
 
@@ -42,7 +42,7 @@ public class CommentsAuthorsServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
-    Map<String, Integer> table = new Hashtable<>();     
+    Map<String, Integer> table = new Hashtable<>();
     for (Entity entity : results.asIterable()) {
       String id = (String) entity.getProperty("id");
       table.put(id, table.getOrDefault(id, 0) + 1);
@@ -50,6 +50,8 @@ public class CommentsAuthorsServlet extends HttpServlet {
 
     StringBuilder sb = new StringBuilder("[");
 
+    // For each pair, construct a string ["k", v], where k is the value of an commenter's nickname
+    // and v is the number of comments associated with that user's nickname.
     table.forEach((k, v) -> {
       sb.append("[\"");
       sb.append(GetNickname.getUserNickname(k));
@@ -58,7 +60,11 @@ public class CommentsAuthorsServlet extends HttpServlet {
       sb.append("],");
     });
 
-    if (sb.length() > 1) sb.deleteCharAt(sb.length() -1);
+    // Remove extra comma if needed.
+    if (sb.length() > 1) {
+      sb.deleteCharAt(sb.length() -1);
+    }
+
     sb.append("]");
 
     response.setContentType("application/json;");
