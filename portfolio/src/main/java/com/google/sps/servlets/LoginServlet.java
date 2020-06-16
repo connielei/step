@@ -21,6 +21,7 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.google.sps.GetNickname;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.annotation.WebServlet;
@@ -43,7 +44,7 @@ public class LoginServlet extends HttpServlet {
     UserService userService = UserServiceFactory.getUserService();
     if (userService.isUserLoggedIn()) {
       String id = userService.getCurrentUser().getUserId();
-      String nickname = getUserNickname(id);
+      String nickname = GetNickname.getUserNickname(id);
       String logoutUrl = userService.createLogoutURL(urlToRedirectTo);
     
       String json = generateLogoutJson(logoutUrl, nickname);
@@ -78,23 +79,5 @@ public class LoginServlet extends HttpServlet {
   private String generateJson(String url, String nickname, String status, String displayText) {
     return "{\"url\": \"" + url + "\", \"loggedIn\":" + status + ",\"nickname\":\"" + 
     nickname + "\", \"displayText\": \"" + displayText + "\"}";
-  }
-
-  /**
-   * Returns the nickname of the user with id, or "Anonymous" if the user doesn't have 
-   * a nickname.
-   */
-  private String getUserNickname(String id) {
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Query query =
-        new Query("UserInfo")
-            .setFilter(new Query.FilterPredicate("id", Query.FilterOperator.EQUAL, id));
-    PreparedQuery results = datastore.prepare(query);
-    Entity entity = results.asSingleEntity();
-    if (entity == null) {
-      return "Anonymous";
-    }
-    String nickname = (String) entity.getProperty("nickname");
-    return nickname;
   }
 }
