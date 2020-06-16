@@ -70,9 +70,9 @@ public final class FindMeetingQuery {
    * {@code attendees}, ie. the two collections overlap/share elements
    */
   private boolean containsAttendees(Collection<String> attendees, Collection<String> people) {
-    Iterator itr = people.iterator();
+    Iterator<String> itr = people.iterator();
     while(itr.hasNext()) {
-      String person = (String) itr.next();
+      String person = itr.next();
       if (attendees.contains(person)) return true;
     }
     return false;
