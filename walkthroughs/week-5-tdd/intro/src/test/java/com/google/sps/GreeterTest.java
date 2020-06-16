@@ -1,4 +1,4 @@
-// Copyright 2019 Google LLC
+// Copyright 2020 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,6 +28,16 @@ public final class GreeterTest {
 
     String greeting = greeter.greet("Ada");
 
+    Assert.assertEquals("Hello Ada", greeting);
+  }
+
+  @Test
+  public void testGreetingTrimsWhitespace() {
+    Greeter greeter = new Greeter();
+
+    String greeting = greeter.greet("   Ada   ");
+
+    // Whitespace should be trimmed
     Assert.assertEquals("Hello Ada", greeting);
   }
 }
