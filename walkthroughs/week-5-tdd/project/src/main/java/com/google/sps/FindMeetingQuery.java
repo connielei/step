@@ -27,11 +27,18 @@ public final class FindMeetingQuery {
   /** Returns time ranges that satisfy the request and take into account, the events */
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
     long duration = request.getDuration();
-    // meeting duration is greater than a day means no viable ranges
-    if (duration > TimeRange.WHOLE_DAY.duration()) return Arrays.asList();
-    
+
+    // when the requested meeting duration is greater than a day, there are means no viable ranges
+    // given only the events for the specific requested day, there is no way to create a meeting
+    // longer than the day because information about the next day's events is needed to do so
+    if (duration > TimeRange.WHOLE_DAY.duration()) {
+      return Arrays.asList();
+    }
+
     // no events means range should be the entire day
-    if (events.isEmpty()) return Arrays.asList(TimeRange.WHOLE_DAY);
+    if (events.isEmpty()) {
+      return Arrays.asList(TimeRange.WHOLE_DAY);
+    }
 
     Collection<String> attendees = request.getAttendees();
     int start = TimeRange.START_OF_DAY;
@@ -46,21 +53,29 @@ public final class FindMeetingQuery {
     for(Event event: sorted_events) {
       // event does not contain the request's attendees, so there's no need to update the
       // start time for a possible time range
-      if (!containsAttendees(event.getAttendees(), attendees)) continue;
+      if (!containsAttendees(event.getAttendees(), attendees)) {
+        continue;
+      }
 
       TimeRange event_time_range = event.getWhen();
       int event_start = event_time_range.start();
       int event_end = event_time_range.end();
 
-      if (start < event_start && duration <= event_start - start)
+      if (start < event_start && duration <= event_start - start) {
         // create and add range if duration condition is statisfied 
         ranges.add(TimeRange.fromStartEnd(start, event_start, false));
+      }
 
       // deals with nested events case: if the event's end time is later than the current
       // range's start time, then update the start time with the event's end time
-      if (start < event_end) start = event_end; 
+      if (start < event_end) {
+        start = event_end; 
+      }
     }
-    if (duration <= end - start) ranges.add(TimeRange.fromStartEnd(start, end, true));
+    
+    if (duration <= end - start) {
+      ranges.add(TimeRange.fromStartEnd(start, end, true));
+    }
 
     return ranges;
   }
@@ -73,7 +88,9 @@ public final class FindMeetingQuery {
     Iterator<String> itr = people.iterator();
     while(itr.hasNext()) {
       String person = itr.next();
-      if (attendees.contains(person)) return true;
+      if (attendees.contains(person)) {
+        return true;
+      }
     }
     return false;
   }
