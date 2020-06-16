@@ -52,6 +52,5 @@ public class NewCommentServlet extends HttpServlet {
   private String getId(){
     UserService userService = UserServiceFactory.getUserService();
     return userService.getCurrentUser().getUserId();
-    return id;
   }
 }

@@ -21,6 +21,7 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.gson.Gson;
+import com.google.sps.GetNickname;
 import java.util.List;
 import java.util.ArrayList;
 import java.io.IOException;
@@ -47,7 +48,7 @@ public class ListCommentsServlet extends HttpServlet {
       if (comments.size() == numComments) break;
       String comment = (String) entity.getProperty("comment");
       String id = (String) entity.getProperty("id");
-      String nickname = getUserNickname(id);
+      String nickname = GetNickname.getUserNickname(id);
       comments.add(comment + " by " + nickname);
     }
 
@@ -74,23 +75,5 @@ public class ListCommentsServlet extends HttpServlet {
     }
 
     return numComments;
-  }
-
-  /**
-   * Returns the nickname of the user with id, or "Anonymous" if the user doesn't have 
-   * a nickname.
-   */
-  private String getUserNickname(String id) {
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Query query =
-        new Query("UserInfo")
-            .setFilter(new Query.FilterPredicate("id", Query.FilterOperator.EQUAL, id));
-    PreparedQuery results = datastore.prepare(query);
-    Entity entity = results.asSingleEntity();
-    if (entity == null) {
-      return "Anonymous";
-    }
-    String nickname = (String) entity.getProperty("nickname");
-    return nickname;
   }
 }
