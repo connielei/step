@@ -61,7 +61,7 @@ public final class FindMeetingQuery {
       int event_start = event_time_range.start();
       int event_end = event_time_range.end();
 
-      if (start < event_start && duration <= event_start - start) {
+      if (event_start > start && event_start - start >= duration) {
         // create and add range if duration condition is statisfied 
         ranges.add(TimeRange.fromStartEnd(start, event_start, false));
       }
