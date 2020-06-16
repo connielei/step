@@ -35,7 +35,7 @@ public final class FindMeetingQuery {
       return Arrays.asList();
     }
 
-    // no events means range should be the entire day
+    // No events means range should be the entire day.
     if (events.isEmpty()) {
       return Arrays.asList(TimeRange.WHOLE_DAY);
     }
