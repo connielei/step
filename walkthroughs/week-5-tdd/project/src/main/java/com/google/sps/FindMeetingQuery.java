@@ -68,7 +68,7 @@ public final class FindMeetingQuery {
 
       // deals with nested events case: if the event's end time is later than the current
       // range's start time, then update the start time with the event's end time
-      if (start < event_end) {
+      if (event_end > start) {
         start = event_end; 
       }
     }
