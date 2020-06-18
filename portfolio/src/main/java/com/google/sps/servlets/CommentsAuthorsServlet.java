@@ -50,19 +50,17 @@ public class CommentsAuthorsServlet extends HttpServlet {
 
     StringBuilder sb = new StringBuilder("[");
 
-    // For each pair, construct a string ["k", v], where k is the value of an commenter's nickname
-    // and v is the number of comments associated with that user's nickname.
-    table.forEach((k, v) -> {
+    table.forEach((id, numComments) -> {
       sb.append("[\"");
-      sb.append(GetNickname.getUserNickname(k));
+      sb.append(GetNickname.getUserNickname(id));
       sb.append("\", ");
-      sb.append(v);
+      sb.append(numComments);
       sb.append("],");
     });
 
-    // Remove extra comma if needed.
+    // Remove trailing comma if needed.
     if (sb.length() > 1) {
-      sb.deleteCharAt(sb.length() -1);
+      sb.deleteCharAt(sb.length() - 1);
     }
 
     sb.append("]");
