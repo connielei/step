@@ -17,22 +17,22 @@ google.charts.setOnLoadCallback(drawChart);
 
 /** Creates a chart and adds it to the page. */
 function drawChart() {
-  var data = google.visualization.arrayToDataTable([
-    ['Task', 'Hours per Day'],
-    ['Work',     11],
-    ['Eat',      2],
-    ['Commute',  2],
-    ['Watch TV', 2],
-    ['Sleep',    7]
-  ]);
+  fetch('/comments-authors-data')
+    .then(response => response.json())
+    .then((json) => {
+      const data = new google.visualization.arrayToDataTable(json);
 
-  const options = {
-    title: 'My Daily Activities',
-    pieHole: 0.4,
-    width: 500,
-    height: 400
-  };
+      const options = {
+        title: 'Comments by Which Authors',
+        pieHole: 0.4,
+        width: 500,
+        height: 400
+      };
 
-  const chart = new google.visualization.PieChart(document.getElementById('pie-chart'));
-  chart.draw(data, options);
+      const chart = new google.visualization.PieChart(document.getElementById('pie-chart'));
+      chart.draw(data, options);
+    })
+    .catch((err) => {
+      document.getElementById('pie-chart').textContent = "Chart data missing.";
+    });
 }
