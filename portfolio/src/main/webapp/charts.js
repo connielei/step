@@ -23,7 +23,7 @@ function drawChart() {
       const data = new google.visualization.arrayToDataTable(json);
 
       const options = {
-         title: 'Comments by Which Authors',
+        title: 'Comments by Which Authors',
         pieHole: 0.4,
         width: 500,
         height: 400
