@@ -31,8 +31,8 @@ function drawChart() {
 
       const chart = new google.visualization.PieChart(document.getElementById('pie-chart'));
       chart.draw(data, options);
-     })
-     .catch((err) => {
+    })
+    .catch((err) => {
       document.getElementById('pie-chart').textContent = "Chart data missing.";
-     });
+    });
 }
