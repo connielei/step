@@ -19,12 +19,13 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Iterator;
 
 public final class FindMeetingQuery {
 
-  /** Returns time ranges that satisfy the request and take into account, the events */
+  /** Returns time ranges that satisfy the request and take into account, the events. */
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
     long duration = request.getDuration();
 
@@ -40,15 +41,32 @@ public final class FindMeetingQuery {
       return Arrays.asList(TimeRange.WHOLE_DAY);
     }
 
-    Collection<String> attendees = request.getAttendees();
-    int start = TimeRange.START_OF_DAY;
-    int end = TimeRange.END_OF_DAY;
-    Collection<TimeRange> ranges = new ArrayList();
-
     // Sort events with respect to ascending start time (needs to be converted to a List
     // to use the sort function and lambda).
     List<Event> sortedEvents = new ArrayList<>(events);
     sortedEvents.sort((e1, e2) -> e1.getWhen().start() - e2.getWhen().start());
+
+    Collection<String> attendees = request.getAttendees();
+    Collection<String> allAttendees = new HashSet<>(attendees);
+    allAttendees.addAll(request.getOptionalAttendees());
+
+    // Return the time ranges that include optional attendees if there are only optional attendees
+    // or when there are non optional attendees and a set of non empty time ranges.
+    Collection<TimeRange> allAttendeesRange = queryHelper(duration, sortedEvents, allAttendees);
+    if (!allAttendeesRange.isEmpty() || attendees.isEmpty()) {
+      return allAttendeesRange;
+    }
+
+    return queryHelper(duration, sortedEvents, attendees);
+  }
+
+  /**
+   * Returns a collection of time ranges that statisfy the duration, attendees and the events given.
+   */
+  private Collection<TimeRange> queryHelper(long duration, List<Event> sortedEvents, Collection<String> attendees) {
+    int start = TimeRange.START_OF_DAY;
+    int end = TimeRange.END_OF_DAY;
+    Collection<TimeRange> ranges = new ArrayList();
 
     for(Event event: sortedEvents) {
       // Event does not contain the request's attendees, so there's no need to update the
@@ -76,7 +94,7 @@ public final class FindMeetingQuery {
     if (duration <= end - start) {
       ranges.add(TimeRange.fromStartEnd(start, end, true));
     }
-
+    
     return ranges;
   }
 
