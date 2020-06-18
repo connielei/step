@@ -275,8 +275,8 @@ public final class FindMeetingQueryTest {
 
   @Test
   public void everyAttendeeIsConsideredOptionalNot() {
-    // Have each person have different events. We should see two options because each person has
-    // split the restricted times.
+    // Have each person have different events. We should see three options because each person has
+    // split the restricted times. An optional attendee has a full day event.
     //
     // Events  : |-----|--A--|--C--|--B--|-----|
     // Day     : |-----------------------------|
@@ -305,7 +305,8 @@ public final class FindMeetingQueryTest {
   @Test
   public void everyOptionalAttendeeIsConsidered() {
     // Have each person have different events. We should see two options because each person has
-    // split the restricted times.
+    // split the restricted times. The optional attendee has an event between the non optional
+    // attendees.
     //
     // Events  : |     |--A--|--C--|--B--|     |
     // Day     : |-----------------------------|
@@ -334,7 +335,7 @@ public final class FindMeetingQueryTest {
   @Test
   public void justEnoughRoomWithOptionals() {
     // Have one person, but make it so that there is just enough room at one point in the day to
-    // have the meeting.
+    // have the meeting. An optional attendee shoudl have an event during the possible room.
     //
     // Events  : |--A--|-B-|  |----A----|
     // Day     : |---------------------|
@@ -345,9 +346,11 @@ public final class FindMeetingQueryTest {
             Arrays.asList(PERSON_A)),
         new Event("Event 2", TimeRange.fromStartEnd(TIME_0900AM, TimeRange.END_OF_DAY, true),
             Arrays.asList(PERSON_A)), 
-        new Event("Event 3", TimeRange.fromStartDuration(TIME_0830AM, DURATION_15_MINUTES)));
+        new Event("Event 3", TimeRange.fromStartDuration(TIME_0830AM, DURATION_15_MINUTES),
+            Arrays.asList(PERSON_B)));
 
     MeetingRequest request = new MeetingRequest(Arrays.asList(PERSON_A), DURATION_30_MINUTES);
+    request.addOptionalAttendee(PERSON_B);
 
     Collection<TimeRange> actual = query.query(events, request);
     Collection<TimeRange> expected =
@@ -387,8 +390,8 @@ public final class FindMeetingQueryTest {
 
   @Test
   public void notEnoughRoomOptionalsOnly() {
-    // Have one person, but make it so that there is not enough room at any point in the day to
-    // have the meeting.
+    // Have two optional attendees, but make it so that there is not enough room at any point in 
+    // the day to have the meeting.
     //
     // Events  : |--A-----| |-----B----|
     // Day     : |---------------------|
