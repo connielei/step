@@ -48,20 +48,15 @@ public class CommentsAuthorsServlet extends HttpServlet {
       table.put(id, table.getOrDefault(id, 0) + 1);
     }
 
-    StringBuilder sb = new StringBuilder("[");
+    StringBuilder sb = new StringBuilder("[[\"Nicknames\", \"Number of Comments\"]");
 
     table.forEach((id, numComments) -> {
-      sb.append("[\"");
+      sb.append(",[\"");
       sb.append(GetNickname.getUserNickname(id));
       sb.append("\", ");
       sb.append(numComments);
-      sb.append("],");
+      sb.append("]");
     });
-
-    // Remove trailing comma if needed.
-    if (sb.length() > 1) {
-      sb.deleteCharAt(sb.length() - 1);
-    }
 
     sb.append("]");
 
