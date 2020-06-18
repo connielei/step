@@ -278,7 +278,8 @@ public final class FindMeetingQueryTest {
     // Have each person have different events. We should see three options because each person has
     // split the restricted times. An optional attendee has a full day event.
     //
-    // Events  : |-----|--A--|--C--|--B--|-----|
+    // Events  :       |--A--|     |--B--|  
+    //           |--------------C--------------|
     // Day     : |-----------------------------|
     // Options : |--1--|     |--2--|     |--3--|
 
